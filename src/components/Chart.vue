@@ -257,6 +257,7 @@
             <option value="7">2B</option>
             <option value="8">3B</option>
             <option value="9">HR</option>
+            <option value="10">E</option>
           </optgroup>
         </select>
       </div>
