@@ -12,6 +12,10 @@
         <div class="w-1/2">{{ activePitcher | calculateStrikes }} Strikes</div>
         <div class="w-1/2">{{ activePitcher | calculateBalls }} Balls</div>
       </div>
+      <div class="flex">
+        <div class="w-1/2">{{ activePitcher | calculateStrikeouts }} Strikeouts</div>
+        <div class="w-1/2">{{ activePitcher | calculateWalks }} Walks</div>
+      </div>
     </div>
 
     <div class="bg-white rounded px-4 py-4 mt-2">

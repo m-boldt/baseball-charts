@@ -53,6 +53,18 @@ Vue.filter('calculateAtBats', function(pitcher) {
   return pitcher.atBats.length;
 });
 
+Vue.filter('calculateWalks', function(pitcher) {
+  return pitcher.atBats.filter(function(ab) {
+    return ab.result === '4';
+  }).length;
+});
+
+Vue.filter('calculateStrikeouts', function(pitcher) {
+  return pitcher.atBats.filter(function(ab) {
+    return ab.result === '1';
+  }).length;
+});
+
 new Vue({
   router,
   store,
