@@ -36,6 +36,15 @@
           </div>
         </div>
       </div>
+      <div v-if="pitches.length > 0">
+        <button 
+          class="bg-white hover:bg-grey-lightest border rounded border-grey py-2 px-4 mt-2 text-center"
+          @click="undo"  
+        >
+          <font-awesome-icon icon="undo" />
+          Undo last pitch
+        </button>
+      </div>
     </div>
 
     <div class="bg-white rounded px-4 py-4">
@@ -379,6 +388,10 @@ export default {
 
         this.$router.push('hitter');
       }
+    },
+
+    undo() {
+      this.pitches.splice(-1,1);
     },
 
     ...mapActions({
