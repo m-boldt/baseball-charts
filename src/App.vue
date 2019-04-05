@@ -4,22 +4,36 @@
       <div class="float-left text-xs text-grey">
         {{ gameId }}
       </div>
-      <a href="#" class="float-right">
-        <font-awesome-icon icon="bars" />
-      </a>
+      <button
+        class="float-right bg-grey-dark text-white mb-2 px-2 py-2 rounded"
+        @click="endGameHandler"
+      >
+        End game
+      </button>
     </nav>
     <router-view />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   computed: {
     ...mapState({
       gameId: 'gameId'
     })
+  },
+
+  methods: {
+    ...mapActions({
+      endGame: 'endGame'
+    }),
+
+    endGameHandler() {
+      this.endGame();
+      this.$router.push('/');
+    }
   }
 }
 </script>

@@ -125,6 +125,11 @@ export default {
   mounted() {
     if (this.gameId === '') {
       this.setGameState();
+
+      if (this.gameId === '') {
+        console.log('redirect..');
+        this.$router.push('/');
+      }
     }
   },
 
