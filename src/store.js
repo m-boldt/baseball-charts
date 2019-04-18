@@ -77,10 +77,8 @@ export default new Vuex.Store({
       })
       .then(response => {
         if (response.data.length > 0) {
-          var item = response.data[0];
-          localStorage.setItem('gameId', response.data[0].id);
-          state.id = response.data[0].id;
-
+          var item = response.data[0];        
+          state.gameId = response.data[0].id;
           state.opponent = item.gameState.opponent;
           state.pitchers = item.gameState.pitchers;
         }
