@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -123,8 +123,9 @@ export default {
   },
 
   mounted() {
-    if (this.gameId === '' || this.opponent === '') {
+    if (this.gameId === '') {
       this.setGameState();
+
       if (this.gameId === '') {
         console.log('redirect..');
         this.$router.push('/');
@@ -143,10 +144,7 @@ export default {
   computed: {
     ...mapState({
       opponent: 'opponent',
-      pitchers: 'pitchers'
-    }),
-
-    ...mapGetters({
+      pitchers: 'pitchers',
       gameId: 'gameId'
     })
   },

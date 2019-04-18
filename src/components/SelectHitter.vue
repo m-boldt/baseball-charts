@@ -162,7 +162,7 @@ export default {
       this.setGameState();
     }
 
-    if (this.gameId === '' || (Object.entries(this.activePitcher).length === 0 && this.activePitcher.constructor === Object)) {
+    if (Object.entries(this.activePitcher).length === 0 && this.activePitcher.constructor === Object) {
       this.$router.push('pitcher');
     }
   },
@@ -178,12 +178,12 @@ export default {
   computed: {
     ...mapState({
       opponent: 'opponent',
-      activePitcher: 'activePitcher'
+      activePitcher: 'activePitcher',
+      gameId: 'gameId'
     }),
 
     ...mapGetters({
-      hitters: 'hitters',
-      gameId: 'gameId'
+      hitters: 'hitters'
     })
   },
 

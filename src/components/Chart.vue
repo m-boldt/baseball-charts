@@ -291,7 +291,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -308,10 +308,7 @@ export default {
     ...mapState({
       opponent: 'opponent',
       activeHitter: 'activeHitter',
-      activePitcher: 'activePitcher'
-    }),
-
-    ...mapGetters({
+      activePitcher: 'activePitcher',
       gameId: 'gameId'
     })
   },

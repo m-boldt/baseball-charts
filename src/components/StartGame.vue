@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   data() {
@@ -44,34 +44,20 @@ export default {
     };
   },
 
-  created() {
-    console.log('created');
-    console.log(this.gameId);
-    if (this.gameId === '') {
-      this.setGameState();
-    } else {
-      this.$router.push('pitcher');
-    }
-  },
-
   mounted() {
-    console.log(this.gameId);
     if (this.gameId === '') {
       this.setGameState();
-    } else {
-      this.$router.push('pitcher');
     }
   },
 
   computed: {
-    ...mapGetters({
+    ...mapState({
       gameId: 'gameId'
     })
   },
 
   watch: {
     gameId() {
-      console.log(this.gameId);
       if (this.gameId !== '') {
         this.$router.push('pitcher');
       }
@@ -85,6 +71,7 @@ export default {
       } else {
         this.invalid = false;
         this.startGame(this.opponent);
+        this.$router.push('pitcher');
       }
     },
 

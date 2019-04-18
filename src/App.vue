@@ -5,7 +5,6 @@
         {{ gameId }}
       </div>
       <button
-        v-if="gameId != ''"
         class="float-right bg-grey-dark text-white mb-2 px-2 py-2 rounded"
         @click="endGameHandler"
       >
@@ -17,11 +16,11 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters({
+    ...mapState({
       gameId: 'gameId'
     })
   },
@@ -33,9 +32,10 @@ export default {
 
     endGameHandler() {
       this.endGame();
+      this.$router.push('/');
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

@@ -10,7 +10,7 @@ export default new Vuex.Store({
     pitchers: [],
     activePitcher: {},
     activeHitter: {},
-    id: ''
+    gameId: ''
   },
 
   getters: {
@@ -25,14 +25,6 @@ export default new Vuex.Store({
           "pitchers": state.pitchers
         }
       };
-    },
-
-    gameId(state) {
-      if (state.id === '' && localStorage.getItem('gameId') !== null) {
-        state.id = localStorage.getItem('gameId');
-      }
-
-      return state.id;
     }
   },
 
@@ -64,14 +56,11 @@ export default new Vuex.Store({
       state.opponent = opponentName;
       axios.post('https://hr-freeware.info/charts', {
         Active: true,
-        ...getters.gameState,
+        gameState: getters.gameState,
         headers: {
           'Authorization':
             'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1MzE5MzU3NSwiZXhwIjoxNTU1Nzg1NTc1fQ.wiNVgDPjeTusLQKqWAkuYe0-0MZYvhDko2IGqocD3VM'
         }
-      })
-      .then(function() {
-        location.reload();
       });
     },
 
@@ -80,6 +69,7 @@ export default new Vuex.Store({
       dispatch('updateGameState');
     },
     setGameState({ state }) {
+      console.log('getting state');
       axios.get('https://hr-freeware.info/charts?Active=true&_limit=1', {
         headers: {
           'Authorization':
@@ -88,24 +78,21 @@ export default new Vuex.Store({
       })
       .then(response => {
         if (response.data.length > 0) {
-          var item = response.data[0];
-          localStorage.setItem('gameId', response.data[0].id);
-          state.id = response.data[0].id;
-
-          console.log(item);
-
-          state.opponent = item.gameState.opponent;
-          state.pitchers = item.gameState.pitchers;
+          state.gameId = response.data[0].id;
+          console.log(response.data[0].gameState);
+          state.opponent = response.data[0].gameState.opponent;
+          state.pitchers = response.data[0].gameState.pitchers;
         }
       });
     },
 
     updateGameState({ state, getters }) {
-      if (state.pitchers.length === 0 || getters.gameId === '') {
+      console.log('update state');
+      if (state.pitchers.length === 0 || state.gameId === '') {
         return;
       }
 
-      axios.put(`https://hr-freeware.info/charts/${getters.gameId}`, {
+      axios.put(`https://hr-freeware.info/charts/${state.gameId}`, {
         ...getters.gameState,
         headers: {
           'Authorization':
@@ -114,18 +101,17 @@ export default new Vuex.Store({
       });
     },
 
-    endGame({ getters }) {
-      localStorage.setItem('gameId', '');
-      axios.put(`https://hr-freeware.info/charts/${getters.gameId}`, {
+    endGame({ state, getters }) {
+      axios.put(`https://hr-freeware.info/charts/${state.gameId}`, {
         ...getters.gameState,
         Active: false,
         headers: {
           'Authorization':
             'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1MzE5MzU3NSwiZXhwIjoxNTU1Nzg1NTc1fQ.wiNVgDPjeTusLQKqWAkuYe0-0MZYvhDko2IGqocD3VM'
         }
-      }).then(() => {
-        location.reload();
       });
+
+      state.gameId = '';
     }
   }
 });
