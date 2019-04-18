@@ -5,6 +5,7 @@
         {{ gameId }}
       </div>
       <button
+        v-if="gameId != ''"
         class="float-right bg-grey-dark text-white mb-2 px-2 py-2 rounded"
         @click="endGameHandler"
       >

@@ -123,11 +123,10 @@ export default {
   },
 
   mounted() {
-    if (this.gameId === '') {
+    if (this.gameId === '' || this.opponent === '') {
       this.setGameState();
 
       if (this.gameId === '') {
-        console.log('redirect..');
         this.$router.push('/');
       }
     }

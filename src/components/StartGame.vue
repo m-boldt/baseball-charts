@@ -47,6 +47,8 @@ export default {
   mounted() {
     if (this.gameId === '') {
       this.setGameState();
+    } else {
+      this.$router.push('pitcher');
     }
   },
 
