@@ -30,6 +30,20 @@
         Continue
       </button>
     </div>
+
+    <h3 class="text-grey-dark uppercase text-normal mb-4">Previous games</h3>
+    <div>
+      <i v-if="previousGames.length === 0">No previous games available</i>
+      <div
+        class="flex mb-2 py-4 px-4 bg-grey-light"
+        v-for="game in previousGames"
+        :key="game.id"
+      >
+        <div class="w-1/5">{{ game.date }}</div>
+        <div class="w-1/2">{{ game.opponent }}</div>
+        <div class="w-2/5">{{ numPitchers(game) }}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,11 +64,16 @@ export default {
     } else {
       this.$router.push('pitcher');
     }
+
+    if (this.previousGames.length === 0) {
+      this.getPreviousGames();
+    }
   },
 
   computed: {
     ...mapState({
-      gameId: 'gameId'
+      gameId: 'gameId',
+      previousGames: 'previousGames'
     })
   },
 
@@ -77,9 +96,22 @@ export default {
       }
     },
 
+    numPitchers(game) {
+      if (game.pitchers != undefined) {
+        if (game.pitchers.length <= 1) {
+          return `${game.pitchers.length} pitcher`;
+        } else {
+          return `${game.pitchers.length} pitchers`;
+        }
+      }
+
+      return '0 pitchers';
+    },
+
     ...mapActions({
       startGame: 'startGame',
-      setGameState: 'setGameState'
+      setGameState: 'setGameState',
+      getPreviousGames: 'getPreviousGames'
     })
   }
 };
