@@ -4,6 +4,7 @@
       <div class="float-left text-xs text-grey">
         {{ gameId }}
       </div>
+<<<<<<< HEAD
       <button
         v-if="gameId != ''"
         class="float-right bg-grey-dark text-white mb-2 px-2 py-2 rounded"
@@ -11,30 +12,24 @@
       >
         End game
       </button>
+=======
+      <a href="#" class="float-right">
+        <font-awesome-icon icon="bars" />
+      </a>
+>>>>>>> parent of fe23222... implement end game button
     </nav>
     <router-view />
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   computed: {
     ...mapState({
       gameId: 'gameId'
     })
-  },
-
-  methods: {
-    ...mapActions({
-      endGame: 'endGame'
-    }),
-
-    endGameHandler() {
-      this.endGame();
-      this.$router.push('/');
-    }
   }
 }
 </script>
