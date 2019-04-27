@@ -59,7 +59,7 @@ export default new Vuex.Store({
         ...getters.gameState,
         headers: {
           'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1MzE5MzU3NSwiZXhwIjoxNTU1Nzg1NTc1fQ.wiNVgDPjeTusLQKqWAkuYe0-0MZYvhDko2IGqocD3VM'
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1NTkzMTg0MywiZXhwIjoxNTU4NTIzODQzfQ.77a-CjtrWi5SuhhgrY1QGt_HVQk9yx7cdnJNxXg1wUE'
         }
       });
     },
@@ -72,7 +72,7 @@ export default new Vuex.Store({
       axios.get('https://hr-freeware.info/charts?Active=true&_limit=1', {
         headers: {
           'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1MzE5MzU3NSwiZXhwIjoxNTU1Nzg1NTc1fQ.wiNVgDPjeTusLQKqWAkuYe0-0MZYvhDko2IGqocD3VM'
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1NTkzMTg0MywiZXhwIjoxNTU4NTIzODQzfQ.77a-CjtrWi5SuhhgrY1QGt_HVQk9yx7cdnJNxXg1wUE'
         }
       })
       .then(response => {
@@ -94,7 +94,7 @@ export default new Vuex.Store({
         ...getters.gameState,
         headers: {
           'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1MzE5MzU3NSwiZXhwIjoxNTU1Nzg1NTc1fQ.wiNVgDPjeTusLQKqWAkuYe0-0MZYvhDko2IGqocD3VM'
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1NTkzMTg0MywiZXhwIjoxNTU4NTIzODQzfQ.77a-CjtrWi5SuhhgrY1QGt_HVQk9yx7cdnJNxXg1wUE'
         }
       })
     },
@@ -105,7 +105,7 @@ export default new Vuex.Store({
         Active: false,
         headers: {
           'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1MzE5MzU3NSwiZXhwIjoxNTU1Nzg1NTc1fQ.wiNVgDPjeTusLQKqWAkuYe0-0MZYvhDko2IGqocD3VM'
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1NTkzMTg0MywiZXhwIjoxNTU4NTIzODQzfQ.77a-CjtrWi5SuhhgrY1QGt_HVQk9yx7cdnJNxXg1wUE'
         }
       });
 
