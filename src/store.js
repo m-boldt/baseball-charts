@@ -77,7 +77,7 @@ export default new Vuex.Store({
       })
       .then(response => {
         if (response.data.length > 0) {
-          var item = response.data[0];        
+          var item = response.data[0];
           state.gameId = response.data[0].id;
           state.opponent = item.gameState.opponent;
           state.pitchers = item.gameState.pitchers;
@@ -86,6 +86,10 @@ export default new Vuex.Store({
     },
 
     updateGameState({ state, getters }) {
+      if (state.pitchers.length === 0 || state.gameId === '') {
+        return;
+      }
+
       axios.put(`https://hr-freeware.info/charts/${state.gameId}`, {
         ...getters.gameState,
         headers: {
@@ -93,6 +97,19 @@ export default new Vuex.Store({
             'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1MzE5MzU3NSwiZXhwIjoxNTU1Nzg1NTc1fQ.wiNVgDPjeTusLQKqWAkuYe0-0MZYvhDko2IGqocD3VM'
         }
       })
+    },
+
+    endGame({ state, getters }) {
+      axios.put(`https://hr-freeware.info/charts/${state.gameId}`, {
+        ...getters.gameState,
+        Active: false,
+        headers: {
+          'Authorization':
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1MzE5MzU3NSwiZXhwIjoxNTU1Nzg1NTc1fQ.wiNVgDPjeTusLQKqWAkuYe0-0MZYvhDko2IGqocD3VM'
+        }
+      });
+
+      state.gameId = '';
     }
   }
 });

@@ -125,13 +125,10 @@ export default {
   mounted() {
     if (this.gameId === '' || this.opponent === '') {
       this.setGameState();
-<<<<<<< HEAD
 
       if (this.gameId === '') {
         this.$router.push('/');
       }
-=======
->>>>>>> parent of fe23222... implement end game button
     }
   },
 
