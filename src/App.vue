@@ -4,12 +4,21 @@
       <div class="float-left text-xs text-grey">
         {{ gameId }}
       </div>
+
       <button
         v-if="gameId != ''"
-        class="float-right bg-grey-dark text-white mb-2 px-2 py-2 rounded"
+        class="float-right bg-grey-darker text-white mb-2 px-2 py-2 rounded"
         @click="endGameHandler"
       >
         End game
+      </button>
+
+      <button
+        v-if="gameId != ''"
+        class="float-right bg-blue-dark text-white mb-2 mr-2 px-2 py-2 rounded"
+        @click="goHome"
+      >
+        Home
       </button>
     </nav>
     <router-view />
@@ -28,15 +37,21 @@ export default {
 
   methods: {
     ...mapActions({
-      endGame: 'endGame'
+      endGame: 'endGame',
+      setGameId: 'setGameId'
     }),
+
+    goHome() {
+      this.setGameId('');
+      this.$router.push('/');
+    },
 
     endGameHandler() {
       this.endGame();
       this.$router.push('/');
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

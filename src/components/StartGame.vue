@@ -31,6 +31,21 @@
       </button>
     </div>
 
+    <h3 class="text-grey-dark uppercase text-normal mb-4">Active games</h3>
+    <div class="mb-12">
+      <i v-if="activeGames.length === 0">No active games available</i>
+      <div
+        class="flex mb-2 py-4 px-4 bg-grey-light cursor-pointer"
+        v-for="game in activeGames"
+        :key="game.id"
+        @click="selectActiveGame(game.id)"
+      >
+        <div class="w-1/5">{{ game.date }}</div>
+        <div class="w-1/2">{{ game.opponent }}</div>
+        <div class="w-2/5">{{ numPitchers(game) }}</div>
+      </div>
+    </div>
+
     <h3 class="text-grey-dark uppercase text-normal mb-4">Previous games</h3>
     <div>
       <i v-if="previousGames.length === 0">No previous games available</i>
@@ -59,21 +74,24 @@ export default {
   },
 
   mounted() {
-    if (this.gameId === '') {
-      this.setGameState();
-    } else {
+    if (this.gameId !== '') {
       this.$router.push('pitcher');
     }
 
     if (this.previousGames.length === 0) {
       this.getPreviousGames();
     }
+
+    if (this.activeGames.length === 0) {
+      this.getActiveGames();
+    }
   },
 
   computed: {
     ...mapState({
       gameId: 'gameId',
-      previousGames: 'previousGames'
+      previousGames: 'previousGames',
+      activeGames: 'activeGames'
     })
   },
 
@@ -92,7 +110,7 @@ export default {
       } else {
         this.invalid = false;
         this.startGame(this.opponent);
-        this.$router.push('pitcher');
+        this.getActiveGames();
       }
     },
 
@@ -108,10 +126,16 @@ export default {
       return '0 pitchers';
     },
 
+    selectActiveGame(gameId) {
+      this.setGameId(gameId);
+    },
+
     ...mapActions({
       startGame: 'startGame',
       setGameState: 'setGameState',
-      getPreviousGames: 'getPreviousGames'
+      getPreviousGames: 'getPreviousGames',
+      getActiveGames: 'getActiveGames',
+      setGameId: 'setGameId'
     })
   }
 };

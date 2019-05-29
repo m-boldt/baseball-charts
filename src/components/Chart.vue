@@ -37,9 +37,9 @@
         </div>
       </div>
       <div v-if="pitches.length > 0">
-        <button 
+        <button
           class="bg-white hover:bg-grey-lightest border rounded border-grey py-2 px-4 mt-2 text-center"
-          @click="undo"  
+          @click="undo"
         >
           <font-awesome-icon icon="undo" />
           Undo last pitch
@@ -318,11 +318,17 @@ export default {
       this.setGameState();
     }
 
-    if (Object.entries(this.activePitcher).length === 0 && this.activePitcher.constructor === Object) {
+    if (
+      Object.entries(this.activePitcher).length === 0 &&
+      this.activePitcher.constructor === Object
+    ) {
       this.$router.push('pitcher');
     }
 
-    if (Object.entries(this.activeHitter).length === 0 && this.activeHitter.constructor === Object) {
+    if (
+      Object.entries(this.activeHitter).length === 0 &&
+      this.activeHitter.constructor === Object
+    ) {
       this.$router.push('hitter');
     }
   },
@@ -391,7 +397,7 @@ export default {
     },
 
     undo() {
-      this.pitches.splice(-1,1);
+      this.pitches.splice(-1, 1);
     },
 
     ...mapActions({
