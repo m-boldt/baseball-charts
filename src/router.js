@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import StartGame from './components/StartGame.vue';
+import StartGame from './pages/StartGame.vue';
 
 Vue.use(Router);
 
@@ -19,7 +19,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: 'hitter' */ './components/SelectHitter.vue')
+        import(/* webpackChunkName: 'hitter' */ './pages/SelectHitter.vue')
     },
     {
       path: '/pitcher',
@@ -28,7 +28,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: 'pitcher' */ './components/SelectPitcher.vue')
+        import(/* webpackChunkName: 'pitcher' */ './pages/SelectPitcher.vue')
     },
     {
       path: '/chart',
@@ -37,7 +37,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: 'chart' */ './components/Chart.vue')
+        import(/* webpackChunkName: 'chart' */ './pages/Chart.vue')
     }
   ]
 });

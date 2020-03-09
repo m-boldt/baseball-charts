@@ -30,13 +30,20 @@
         Continue
       </button>
     </div>
+
+    <games-list></games-list>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import gamesList from '../components/games-list.vue';
 
 export default {
+  components: {
+    gamesList
+  },
+
   data() {
     return {
       opponent: '',
@@ -47,8 +54,6 @@ export default {
   mounted() {
     if (this.gameId === '') {
       this.setGameState();
-    } else {
-      this.$router.push('pitcher');
     }
   },
 
@@ -56,14 +61,6 @@ export default {
     ...mapState({
       gameId: 'gameId'
     })
-  },
-
-  watch: {
-    gameId() {
-      if (this.gameId !== '') {
-        this.$router.push('pitcher');
-      }
-    }
   },
 
   methods: {

@@ -70,6 +70,7 @@ export default new Vuex.Store({
       state.activePitcher.atBats.push(abData);
       dispatch('updateGameState');
     },
+
     setGameState({ state }) {
       axios
         .get(`${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_DATASET}`, {
@@ -118,6 +119,17 @@ export default new Vuex.Store({
       );
 
       state.gameId = '';
+    },
+
+    async listGames() {
+      return axios.get(
+        `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_DATASET}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.VUE_APP_AUTH_TOKEN}`
+          }
+        }
+      );
     }
   }
 });

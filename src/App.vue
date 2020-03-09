@@ -2,6 +2,14 @@
   <div id="app">
     <nav class="bg-white px-4 py-4 clearfix">
       <div class="float-left text-xs text-grey">
+        <div>
+          <router-link to="/">
+            <button class="bg-grey-dark text-white mb-2 px-2 py-2 rounded">
+              Home
+            </button>
+          </router-link>
+        </div>
+
         {{ gameId }}
       </div>
       <button
@@ -34,7 +42,7 @@ export default {
       this.endGame();
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
