@@ -20,9 +20,9 @@ export default new Vuex.Store({
 
     gameState(state) {
       return {
-        "gameState": {
-          "opponent": state.opponent,
-          "pitchers": state.pitchers
+        gameState: {
+          opponent: state.opponent,
+          pitchers: state.pitchers
         }
       };
     }
@@ -54,14 +54,16 @@ export default new Vuex.Store({
 
     startGame({ state, getters }, opponentName) {
       state.opponent = opponentName;
-      axios.post('https://hr-freeware.info/charts', {
-        Active: true,
-        ...getters.gameState,
-        headers: {
-          'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1OTEzNDczNSwiZXhwIjoxNTYxNzI2NzM1fQ.aEiBOGyg2Bv2KcHLk0byi7KvRPIfeR-XwFTN6DwDmCM'
+      axios.post(
+        `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_DATASET}`,
+        {
+          Active: true,
+          ...getters.gameState,
+          headers: {
+            Authorization: `Bearer ${process.env.VUE_APP_AUTH_TOKEN}`
+          }
         }
-      });
+      );
     },
 
     addAB({ state, dispatch }, abData) {
@@ -69,20 +71,20 @@ export default new Vuex.Store({
       dispatch('updateGameState');
     },
     setGameState({ state }) {
-      axios.get('https://hr-freeware.info/charts?Active=true&_limit=1', {
-        headers: {
-          'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1OTEzNDczNSwiZXhwIjoxNTYxNzI2NzM1fQ.aEiBOGyg2Bv2KcHLk0byi7KvRPIfeR-XwFTN6DwDmCM'
-        }
-      })
-      .then(response => {
-        if (response.data.length > 0) {
-          var item = response.data[0];
-          state.gameId = response.data[0].id;
-          state.opponent = item.gameState.opponent;
-          state.pitchers = item.gameState.pitchers;
-        }
-      });
+      axios
+        .get(`${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_DATASET}`, {
+          headers: {
+            Authorization: `Bearer ${process.env.VUE_APP_AUTH_TOKEN}`
+          }
+        })
+        .then(response => {
+          if (response.data.length > 0) {
+            var item = response.data[0];
+            state.gameId = response.data[0].id;
+            state.opponent = item.gameState.opponent;
+            state.pitchers = item.gameState.pitchers;
+          }
+        });
     },
 
     updateGameState({ state, getters }) {
@@ -90,24 +92,30 @@ export default new Vuex.Store({
         return;
       }
 
-      axios.put(`https://hr-freeware.info/charts/${state.gameId}`, {
-        ...getters.gameState,
-        headers: {
-          'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1OTEzNDczNSwiZXhwIjoxNTYxNzI2NzM1fQ.aEiBOGyg2Bv2KcHLk0byi7KvRPIfeR-XwFTN6DwDmCM'
+      axios.put(
+        `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_DATASET}/
+         ${state.gameId}`,
+        {
+          ...getters.gameState,
+          headers: {
+            Authorization: `Bearer ${process.env.VUE_APP_AUTH_TOKEN}`
+          }
         }
-      })
+      );
     },
 
     endGame({ state, getters }) {
-      axios.put(`https://hr-freeware.info/charts/${state.gameId}`, {
-        ...getters.gameState,
-        Active: false,
-        headers: {
-          'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzRhMWJkOWMzMzdmNzMyYWQxMzNiOTIiLCJpZCI6IjVjNGExYmQ5YzMzN2Y3MzJhZDEzM2I5MiIsImlhdCI6MTU1OTEzNDczNSwiZXhwIjoxNTYxNzI2NzM1fQ.aEiBOGyg2Bv2KcHLk0byi7KvRPIfeR-XwFTN6DwDmCM'
+      axios.put(
+        `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_DATASET}/
+         ${state.gameId}`,
+        {
+          ...getters.gameState,
+          Active: false,
+          headers: {
+            Authorization: `Bearer ${process.env.VUE_APP_AUTH_TOKEN}`
+          }
         }
-      });
+      );
 
       state.gameId = '';
     }
