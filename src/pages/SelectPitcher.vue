@@ -122,11 +122,15 @@ export default {
     };
   },
 
-  mounted() {
-    if (this.gameId === '' || this.opponent === '') {
-      this.setGameState();
+  async mounted() {
+    console.log(this.$route.params);
+    var idParam = this.$route.params.id;
+    if (this.gameId === '' || this.opponent === '' || this.gameId !== idParam) {
+      const loadedGameId = await this.setGameState(idParam);
 
-      if (this.gameId === '') {
+      console.log(`Loaded game ${loadedGameId}`);
+
+      if (loadedGameId === '') {
         this.$router.push('/');
       }
     }

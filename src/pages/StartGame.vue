@@ -51,12 +51,6 @@ export default {
     };
   },
 
-  mounted() {
-    if (this.gameId === '') {
-      this.setGameState();
-    }
-  },
-
   computed: {
     ...mapState({
       gameId: 'gameId'

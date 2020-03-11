@@ -14,7 +14,9 @@
     <div
       v-for="game in games"
       :key="`game_${game.id}`"
-      class="flex bg-grey text-white px-2 py-2 mb-2"
+      class="flex bg-grey text-white px-2 py-2 mb-2 game-list-item"
+      :class="{ 'bg-blue': game.Active }"
+      @click="gotoGame(game.id)"
     >
       <div class="w-1/6">
         {{ game.createdAt | formatDate }}
@@ -42,7 +44,11 @@ export default {
   methods: {
     ...mapActions({
       listGames: 'listGames'
-    })
+    }),
+
+    gotoGame(id) {
+      this.$router.push({ name: 'pitcher', params: { id: id } });
+    }
   },
 
   filters: {
@@ -53,3 +59,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.game-list-item.bg-blue:hover {
+  cursor: pointer;
+}
+</style>

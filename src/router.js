@@ -13,7 +13,7 @@ export default new Router({
       component: StartGame
     },
     {
-      path: '/hitter',
+      path: '/hitter/:id',
       name: 'hitter',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
@@ -22,7 +22,7 @@ export default new Router({
         import(/* webpackChunkName: 'hitter' */ './pages/SelectHitter.vue')
     },
     {
-      path: '/pitcher',
+      path: '/pitcher/:id',
       name: 'pitcher',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
@@ -31,7 +31,7 @@ export default new Router({
         import(/* webpackChunkName: 'pitcher' */ './pages/SelectPitcher.vue')
     },
     {
-      path: '/chart',
+      path: '/chart/:id',
       name: 'chart',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
