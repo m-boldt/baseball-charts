@@ -123,12 +123,9 @@ export default {
   },
 
   async mounted() {
-    console.log(this.$route.params);
     var idParam = this.$route.params.id;
     if (this.gameId === '' || this.opponent === '' || this.gameId !== idParam) {
       const loadedGameId = await this.setGameState(idParam);
-
-      console.log(`Loaded game ${loadedGameId}`);
 
       if (loadedGameId === '') {
         this.$router.push('/');
@@ -169,7 +166,7 @@ export default {
 
     setPitcher(index) {
       this.setActivePitcher(this.pitchers[index]);
-      this.$router.push('hitter');
+      this.$router.push({ name: 'hitter', params: { id: this.gameId } });
     },
 
     ...mapActions({

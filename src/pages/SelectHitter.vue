@@ -2,19 +2,37 @@
   <div class="px-2 py-4">
     <div class="bg-white rounded px-4 py-4">
       <h3 class="text-grey-dark uppercase text-normal mb-4">
-        {{ activePitcher.name }}
+        {{ pitcherName }}
       </h3>
       <div class="flex">
-        <div class="w-1/2">{{ activePitcher | calculateAtBats }} Hitter</div>
-        <div class="w-1/2">{{ activePitcher | calculatePitches }} Pitches</div>
+        <div class="w-1/2">
+          {{ activePitcher | calculateAtBats }}
+          Hitter
+        </div>
+        <div class="w-1/2">
+          {{ activePitcher | calculatePitches }}
+          Pitches
+        </div>
       </div>
       <div class="flex">
-        <div class="w-1/2">{{ activePitcher | calculateStrikes }} Strikes</div>
-        <div class="w-1/2">{{ activePitcher | calculateBalls }} Balls</div>
+        <div class="w-1/2">
+          {{ activePitcher | calculateStrikes }}
+          Strikes
+        </div>
+        <div class="w-1/2">
+          {{ activePitcher | calculateBalls }}
+          Balls
+        </div>
       </div>
       <div class="flex">
-        <div class="w-1/2">{{ activePitcher | calculateStrikeouts }} Strikeouts</div>
-        <div class="w-1/2">{{ activePitcher | calculateWalks }} Walks</div>
+        <div class="w-1/2">
+          {{ activePitcher | calculateStrikeouts }}
+          Strikeouts
+        </div>
+        <div class="w-1/2">
+          {{ activePitcher | calculateWalks }}
+          Walks
+        </div>
       </div>
     </div>
 
@@ -134,7 +152,7 @@
     </div>
 
     <router-link
-      to="/pitcher"
+      :to="{ name: 'pitcher', params: { id: gameId } }"
       class="bg-white hover:bg-grey-lightest bordered rounded border-grey py-2 px-4 mt-2 w-full text-center block"
     >
       Back
@@ -157,13 +175,18 @@ export default {
     };
   },
 
-  mounted() {
-    if (this.gameId === '') {
-      this.setGameState();
+  async created() {
+    var idParam = this.$route.params.id;
+    if (this.gameId === '' || this.opponent === '' || this.gameId !== idParam) {
+      const loadedGameId = await this.setGameState(idParam);
+
+      if (loadedGameId === '') {
+        this.$router.push('/');
+      }
     }
 
-    if (Object.entries(this.activePitcher).length === 0 && this.activePitcher.constructor === Object) {
-      this.$router.push('pitcher');
+    if (this.activePitcher === null || this.activePitcher === undefined) {
+      this.$router.push({ name: 'pitcher', params: { id: this.gameId } });
     }
   },
 
@@ -176,6 +199,14 @@ export default {
   },
 
   computed: {
+    pitcherName() {
+      if (this.activePitcher === undefined) {
+        return '';
+      }
+
+      return this.activePitcher.name;
+    },
+
     ...mapState({
       opponent: 'opponent',
       activePitcher: 'activePitcher',
@@ -211,7 +242,7 @@ export default {
 
     selectHitter(index) {
       this.setActiveHitter(this.hitters[index]);
-      this.$router.push('chart');
+      this.$router.push({ name: 'chart', params: { id: this.gameId } });
     }
   }
 };

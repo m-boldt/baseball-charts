@@ -18,6 +18,10 @@ Vue.config.productionTip = false;
 Vue.filter('calculatePitches', function(pitcher) {
   let pitches = 0;
 
+  if (pitcher === undefined || pitcher.atBats === undefined) {
+    return 0;
+  }
+
   for (let i = 0; i < pitcher.atBats.length; i++) {
     pitches += pitcher.atBats[i].pitches.length;
   }
@@ -27,6 +31,10 @@ Vue.filter('calculatePitches', function(pitcher) {
 
 Vue.filter('calculateBalls', function(pitcher) {
   let balls = 0;
+
+  if (pitcher === undefined || pitcher.atBats === undefined) {
+    return 0;
+  }
 
   for (let i = 0; i < pitcher.atBats.length; i++) {
     balls += pitcher.atBats[i].pitches.filter(function(p) {
@@ -40,6 +48,10 @@ Vue.filter('calculateBalls', function(pitcher) {
 Vue.filter('calculateStrikes', function(pitcher) {
   let strikes = 0;
 
+  if (pitcher === undefined || pitcher.atBats === undefined) {
+    return 0;
+  }
+
   for (let i = 0; i < pitcher.atBats.length; i++) {
     strikes += pitcher.atBats[i].pitches.filter(function(p) {
       return p.strike === '1';
@@ -50,16 +62,28 @@ Vue.filter('calculateStrikes', function(pitcher) {
 });
 
 Vue.filter('calculateAtBats', function(pitcher) {
+  if (pitcher === undefined || pitcher.atBats === undefined) {
+    return 0;
+  }
+
   return pitcher.atBats.length;
 });
 
 Vue.filter('calculateWalks', function(pitcher) {
+  if (pitcher === undefined || pitcher.atBats === undefined) {
+    return 0;
+  }
+
   return pitcher.atBats.filter(function(ab) {
     return ab.result === '4';
   }).length;
 });
 
 Vue.filter('calculateStrikeouts', function(pitcher) {
+  if (pitcher === undefined || pitcher.atBats === undefined) {
+    return 0;
+  }
+
   return pitcher.atBats.filter(function(ab) {
     return ab.result === '1';
   }).length;
