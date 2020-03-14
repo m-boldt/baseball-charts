@@ -10,7 +10,8 @@ export default new Vuex.Store({
     pitchers: [],
     activePitcher: undefined,
     activeHitter: {},
-    gameId: ''
+    gameId: '',
+    isActive: undefined
   },
 
   getters: {
@@ -78,6 +79,8 @@ export default new Vuex.Store({
     },
 
     async setGameState({ state }, gameId) {
+      state.isActive = undefined;
+
       var url = `${process.env.VUE_APP_API_URL}/${
         process.env.VUE_APP_DATASET
       }/${gameId}`;
@@ -90,6 +93,7 @@ export default new Vuex.Store({
         });
 
         state.gameId = data.id;
+        state.isActive = data.Active;
         state.opponent = data.gameState.opponent;
         state.pitchers = data.gameState.pitchers;
 
@@ -122,12 +126,17 @@ export default new Vuex.Store({
     },
 
     endGame({ state, getters }) {
+      const url = `${process.env.VUE_APP_API_URL}/${
+        process.env.VUE_APP_DATASET
+      }/${state.gameId}`;
+
       axios.put(
-        `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_DATASET}/
-         ${state.gameId}`,
+        url,
         {
           ...getters.gameState,
-          Active: false,
+          Active: false
+        },
+        {
           headers: {
             Authorization: `Bearer ${process.env.VUE_APP_AUTH_TOKEN}`
           }

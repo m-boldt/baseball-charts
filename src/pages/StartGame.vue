@@ -31,7 +31,9 @@
       </button>
     </div>
 
-    <games-list></games-list>
+    <div class="mt-4">
+      <games-list></games-list>
+    </div>
   </div>
 </template>
 

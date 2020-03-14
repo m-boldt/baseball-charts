@@ -89,6 +89,30 @@ Vue.filter('calculateStrikeouts', function(pitcher) {
   }).length;
 });
 
+Vue.filter('calculateOnBase', function(pitcher) {
+  if (pitcher === undefined || pitcher.atBats === undefined) {
+    return 0;
+  }
+
+  const onBaseKeys = ['4', '5', '6', '7', '8', '9', '10'];
+
+  return pitcher.atBats.filter(function(ab) {
+    return onBaseKeys.indexOf(ab.result) > -1;
+  }).length;
+});
+
+Vue.filter('calculateOuts', function(pitcher) {
+  if (pitcher === undefined || pitcher.atBats === undefined) {
+    return 0;
+  }
+
+  const outKeys = ['0', '1', '2'];
+
+  return pitcher.atBats.filter(function(ab) {
+    return outKeys.indexOf(ab.result) > -1;
+  }).length;
+});
+
 new Vue({
   router,
   store,

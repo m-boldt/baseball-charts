@@ -3,7 +3,7 @@
     <nav class="bg-white px-4 py-4 clearfix">
       <div class="float-left text-xs text-grey">
         <div>
-          <router-link to="/">
+          <router-link v-if="showHomeButton" to="/">
             <button class="bg-grey-dark text-white mb-2 px-2 py-2 rounded">
               Home
             </button>
@@ -13,7 +13,7 @@
         {{ gameId }}
       </div>
       <button
-        v-if="gameId != ''"
+        v-if="showEndButton"
         class="float-right bg-grey-dark text-white mb-2 px-2 py-2 rounded"
         @click="endGameHandler"
       >
@@ -29,8 +29,21 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   computed: {
+    showEndButton() {
+      return (
+        this.gameId !== '' &&
+        this.$route.name !== 'startGame' &&
+        this.gameIsActive
+      );
+    },
+
+    showHomeButton() {
+      return this.$route.name !== 'startGame';
+    },
+
     ...mapState({
-      gameId: 'gameId'
+      gameId: 'gameId',
+      gameIsActive: 'isActive'
     })
   },
 
@@ -38,6 +51,7 @@ export default {
     ...mapActions({
       endGame: 'endGame'
     }),
+
     endGameHandler() {
       this.endGame();
     }
