@@ -17,14 +17,14 @@
       v-for="game in games"
       :key="`game_${game.id}`"
       class="flex flex-wrap bg-grey text-white px-2 py-2 mb-2 game-list-item"
-      :class="{ 'bg-blue': game.Active }"
-      @click="gotoGame(game.id, game.Active)"
+      :class="{ 'bg-blue': game.active }"
+      @click="gotoGame(game.id, game.active)"
     >
       <div class="w-full sm:w-1/6">
         {{ game.createdAt | formatDate }}
       </div>
       <div class="w-full sm:w-1/2">
-        {{ game.gameState.opponent }}
+        {{ game.opponent }}
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@ export default {
   }),
 
   async mounted() {
-    const { data } = await this.listGames();
+    const data = await this.listGames();
     this.games = data;
   },
 

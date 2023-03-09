@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import gamesList from '../components/games-list.vue';
 
 export default {
@@ -60,19 +60,23 @@ export default {
   },
 
   methods: {
-    submit() {
+    async submit() {
       if (this.opponent.trim() === '') {
         this.invalid = true;
       } else {
         this.invalid = false;
-        this.startGame(this.opponent);
-        this.$router.push('pitcher');
+        const gameId = await this.startGame(this.opponent);
+        this.$router.push({ name: 'pitcher', params: { id: gameId } });
       }
     },
 
     ...mapActions({
       startGame: 'startGame',
       setGameState: 'setGameState'
+    }),
+
+    ...mapMutations({
+      clearGameData: 'clearGameData'
     })
   }
 };
