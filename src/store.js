@@ -152,13 +152,16 @@ export default new Vuex.Store({
       dispatch('saveState');
     },
 
-    async endGame({ commit, state, getters }) {
+    async endGame({ commit, state }) {
       const storage = getStorage(firebase);
       const fileRef = ref(storage, `game_${state.gameId}.json`);
 
       const data = {
         active: false,
-        ...getters.gameState
+        gameState: {
+          opponent: state.opponent,
+          pitchers: state.pitchers
+        }
       };
 
       const jsonString = JSON.stringify(data);
