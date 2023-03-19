@@ -34,6 +34,19 @@ export default new Vuex.Store({
           pitchers: state.pitchers
         }
       };
+    },
+
+    fileName(state) {
+      return `game_${state.gameId}.json`;
+    },
+
+    listFileName() {
+      let prefix = '';
+      if (process.env.VUE_APP_PREFIX) {
+        prefix = `${process.env.VUE_APP_PREFIX}_`;
+      }
+
+      return `${prefix}gamesList.json`;
     }
   },
 
@@ -69,7 +82,7 @@ export default new Vuex.Store({
       dispatch('updateGameState');
     },
 
-    async startGame({ commit, state }, opponentName) {
+    async startGame({ commit, state, getters }, opponentName) {
       commit('clearGameData');
 
       state.gameId = uuidv4();
@@ -77,7 +90,7 @@ export default new Vuex.Store({
       state.pitchers = [];
 
       const storage = getStorage(firebase);
-      const fileName = `game_${state.gameId}.json`;
+      const fileName = getters.fileName;
       const fileRef = ref(storage, fileName);
 
       const data = {
@@ -91,7 +104,6 @@ export default new Vuex.Store({
       const jsonString = JSON.stringify(data);
       const jsonBlob = new Blob([jsonString], { type: 'application/json' });
 
-      const parsedJson = JSON.parse(await jsonBlob.text());
       await uploadBytes(fileRef, jsonBlob);
 
       this.dispatch('saveState');
@@ -100,9 +112,9 @@ export default new Vuex.Store({
       return state.gameId;
     },
 
-    async saveState({ state }) {
+    async saveState({ state, getters }) {
       const storage = getStorage(firebase);
-      const fileRef = ref(storage, `game_${state.gameId}.json`);
+      const fileRef = ref(storage, getters.fileName);
 
       const data = {
         active: true,
@@ -122,12 +134,13 @@ export default new Vuex.Store({
       dispatch('updateGameState');
     },
 
-    async setGameState({ state }, gameId) {
+    async setGameState({ state, getters }, gameId) {
       state.isActive = undefined;
 
       try {
         const storage = getStorage(firebase);
-        const fileRef = ref(storage, `game_${gameId}.json`);
+        state.gameId = gameId;
+        const fileRef = ref(storage, getters.fileName);
 
         const dataBlob = await getBlob(fileRef);
         const data = JSON.parse(await dataBlob.text());
@@ -152,9 +165,9 @@ export default new Vuex.Store({
       dispatch('saveState');
     },
 
-    async endGame({ commit, state }) {
+    async endGame({ commit, state, getters }) {
       const storage = getStorage(firebase);
-      const fileRef = ref(storage, `game_${state.gameId}.json`);
+      const fileRef = ref(storage, getters.fileName);
 
       const data = {
         active: false,
@@ -169,7 +182,7 @@ export default new Vuex.Store({
       await uploadBytes(fileRef, jsonBlob);
 
       // mark the item in the games list as inactive
-      const listFileRef = ref(storage, 'gamesList.json');
+      const listFileRef = ref(storage, getters.listFileName);
 
       const dataBlob = await getBlob(listFileRef);
       const json = JSON.parse(await dataBlob.text());
@@ -189,7 +202,7 @@ export default new Vuex.Store({
       commit('clearGameData');
     },
 
-    async addToList({ state }) {
+    async addToList({ state, getters }) {
       const data = {
         createdAt: new Date(),
         opponent: state.opponent,
@@ -198,7 +211,7 @@ export default new Vuex.Store({
       };
 
       const storage = getStorage(firebase);
-      const fileRef = ref(storage, 'gamesList.json');
+      const fileRef = ref(storage, getters.listFileName);
 
       const dataBlob = await getBlob(fileRef);
       const json = JSON.parse(await dataBlob.text());
@@ -211,9 +224,9 @@ export default new Vuex.Store({
       await uploadBytes(fileRef, updatedBlob);
     },
 
-    async listGames() {
+    async listGames({ getters }) {
       const storage = getStorage(firebase);
-      const pathReference = ref(storage, 'gamesList.json');
+      const pathReference = ref(storage, getters.listFileName);
       let games = [];
 
       // var jsonString = JSON.stringify([]);
@@ -228,10 +241,12 @@ export default new Vuex.Store({
         // const { data } = await axios.get(downloadUrl);
         // console.log(data);
         const dataBlob = await getBlob(pathReference);
+
         games = JSON.parse(await dataBlob.text());
       } catch (e) {
         console.log('error downloading the file');
         var jsonString = JSON.stringify([]);
+        1;
         var blob = new Blob([jsonString], { type: 'application/json' });
         uploadBytes(pathReference, blob).then(snapshot => {
           console.log('Uploaded a blob or file!');

@@ -47,6 +47,10 @@ export default {
     })
   },
 
+  mounted() {
+    console.log(process.env.VUE_APP_PREFIX);
+  },
+
   methods: {
     ...mapActions({
       endGame: 'endGame'
