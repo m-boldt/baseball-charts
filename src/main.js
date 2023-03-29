@@ -106,8 +106,9 @@ Vue.filter('calculateOuts', function(pitcher) {
     return 0;
   }
 
-  const outKeys = ['0', '1', '2'];
+  const outKeys = ['1', '2', '3'];
 
+  console.log(pitcher.atBats);
   return pitcher.atBats.filter(function(ab) {
     return outKeys.indexOf(ab.result) > -1;
   }).length;
